@@ -1,5 +1,6 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactoryResolver, OnDestroy } from '@angular/core';
 import { ChildAComponent } from '../child-a/child-a.component';
+import { MoveChildService } from '../move-child.service';
 
 @Component({
   selector: 'app-parent-a',
@@ -14,7 +15,7 @@ export class ParentAComponent implements AfterViewInit {
   private childContainerRef: ComponentRef<ChildAComponent>;
   private isChildUp = true;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private moveChildService: MoveChildService) {}
 
   ngAfterViewInit() {
     const factoryA = this.componentFactoryResolver.resolveComponentFactory(ChildAComponent);
@@ -41,5 +42,12 @@ export class ParentAComponent implements AfterViewInit {
       this.isChildUp = true;
     }
   }
+
+
+  moveToApp() {
+    this.moveChildService.moveChildToApp(this.childContainerRef);
+  }
+
+
 
 }

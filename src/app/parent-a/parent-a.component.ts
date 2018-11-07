@@ -26,6 +26,8 @@ export class ParentAComponent implements AfterViewInit {
       next: (componentRef: ComponentRef<ChildAComponent>) => {
         console.log('Event toParentA called!', componentRef);
         this.childContainerRef = componentRef;
+        const index = this.containerA.indexOf(this.childContainerRef.hostView);
+        this.containerA.detach(index);
         this.containerA.insert(this.childContainerRef.hostView);
         this.childContainerRef.changeDetectorRef.detectChanges();
       }

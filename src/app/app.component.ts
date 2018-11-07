@@ -22,6 +22,8 @@ export class AppComponent implements AfterViewInit {
       next: (componentRef: ComponentRef<ChildAComponent>) => {
         console.log('Event toApp called!', componentRef);
         this.childContainerRef = componentRef;
+        const index = this.container.indexOf(this.childContainerRef.hostView);
+        this.container.detach(index);
         this.container.insert(this.childContainerRef.hostView);
         this.childContainerRef.changeDetectorRef.detectChanges();
       }

@@ -43,6 +43,6 @@ export class AppComponent implements AfterViewInit {
   }
 
   moveChildToParentB() {
-    // this.moveChildService.toParentA.next(this.childContainerRef);
+    this.moveChildService.toParentB.next(this.childContainerRef);
   }
 }

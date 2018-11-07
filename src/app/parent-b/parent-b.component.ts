@@ -18,14 +18,10 @@ export class ParentBComponent implements AfterViewInit, OnDestroy {
 
   private parentBSub: Subscription;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private moveChildService: MoveChildService) {}
+  constructor(private moveChildService: MoveChildService) {}
 
   ngAfterViewInit() {
-    // const factoryA = this.componentFactoryResolver.resolveComponentFactory(ChildAComponent);
-    // this.childContainerRef = this.containerA.createComponent(factoryA);
-    // this.childContainerRef.changeDetectorRef.detectChanges();
-
-    this.parentBSub = this.moveChildService.toParentB.subscribe({
+     this.parentBSub = this.moveChildService.toParentB.subscribe({
       next: (componentRef: ComponentRef<ChildAComponent>) => {
         console.log('Event toParentB called!', componentRef);
         this.childContainerRef = componentRef;

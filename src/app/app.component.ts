@@ -16,11 +16,13 @@ export class AppComponent implements AfterViewInit {
   private childContainerRef: ComponentRef<ChildAComponent>;
   private isChildUp = true;
 
-  constructor(private router: Router, private moveChildService: MoveChildService) {
-
-  }
-
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private router: Router, private moveChildService: MoveChildService) {}
+  
   ngAfterViewInit() {
+    const factoryA = this.componentFactoryResolver.resolveComponentFactory(ChildAComponent);
+    this.childContainerRef = this.containerA.createComponent(factoryA);
+    this.childContainerRef.changeDetectorRef.detectChanges();
+    
     this.moveChildService.toApp.subscribe({
       next: (componentRef: ComponentRef<ChildAComponent>) => {
         console.log('Event toApp called!', componentRef);
@@ -29,6 +31,7 @@ export class AppComponent implements AfterViewInit {
         this.containerA.detach(index);
         this.containerA.insert(this.childContainerRef.hostView);
         this.childContainerRef.changeDetectorRef.detectChanges();
+        this.isChildUp = true;
       }
     })
   }

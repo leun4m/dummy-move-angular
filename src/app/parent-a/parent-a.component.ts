@@ -1,19 +1,22 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactoryResolver, OnDestroy } from '@angular/core';
 import { ChildAComponent } from '../child-a/child-a.component';
 import { MoveChildService } from '../move-child.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-parent-a',
   templateUrl: './parent-a.component.html',
   styleUrls: ['./parent-a.component.css']
 })
-export class ParentAComponent implements AfterViewInit {
+export class ParentAComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('containerA', {read: ViewContainerRef}) containerA: ViewContainerRef;
   @ViewChild('containerB', {read: ViewContainerRef}) containerB: ViewContainerRef;
 
   private childContainerRef: ComponentRef<ChildAComponent>;
   private isChildUp = true;
+
+  private parentASub: Subscription;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver, private moveChildService: MoveChildService) {}
 
@@ -22,7 +25,7 @@ export class ParentAComponent implements AfterViewInit {
     this.childContainerRef = this.containerA.createComponent(factoryA);
     this.childContainerRef.changeDetectorRef.detectChanges();
       
-    this.moveChildService.toParentA.subscribe({
+    this.parentASub = this.moveChildService.toParentA.subscribe({
       next: (componentRef: ComponentRef<ChildAComponent>) => {
         console.log('Event toParentA called!', componentRef);
         this.childContainerRef = componentRef;
@@ -56,5 +59,9 @@ export class ParentAComponent implements AfterViewInit {
 
   moveToApp() {
     this.moveChildService.toApp.emit(this.childContainerRef);
+  }
+
+  ngOnDestroy() {
+    this.parentASub.unsubscribe();
   }
 }

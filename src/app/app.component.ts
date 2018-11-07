@@ -9,9 +9,12 @@ import { MoveChildService } from './move-child.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef;
+  @ViewChild('containerA', {read: ViewContainerRef}) containerA: ViewContainerRef;
+
+  @ViewChild('containerB', {read: ViewContainerRef}) containerB: ViewContainerRef;
 
   private childContainerRef: ComponentRef<ChildAComponent>;
+  private isChildUp = true;
 
   constructor(private router: Router, private moveChildService: MoveChildService) {
 
@@ -22,9 +25,9 @@ export class AppComponent implements AfterViewInit {
       next: (componentRef: ComponentRef<ChildAComponent>) => {
         console.log('Event toApp called!', componentRef);
         this.childContainerRef = componentRef;
-        const index = this.container.indexOf(this.childContainerRef.hostView);
-        this.container.detach(index);
-        this.container.insert(this.childContainerRef.hostView);
+        const index = this.containerA.indexOf(this.childContainerRef.hostView);
+        this.containerA.detach(index);
+        this.containerA.insert(this.childContainerRef.hostView);
         this.childContainerRef.changeDetectorRef.detectChanges();
       }
     })
@@ -44,5 +47,25 @@ export class AppComponent implements AfterViewInit {
 
   moveChildToParentB() {
     this.moveChildService.toParentB.next(this.childContainerRef);
+  }
+
+  moveChildDown() {
+    if (this.isChildUp) {
+      const index = this.containerA.indexOf(this.childContainerRef.hostView);
+      this.containerA.detach(index);
+      this.containerB.insert(this.childContainerRef.hostView);
+      this.childContainerRef.changeDetectorRef.detectChanges();
+      this.isChildUp = false;
+    }
+  }
+
+  moveChildUp() {
+    if (!this.isChildUp) {
+      const index = this.containerB.indexOf(this.childContainerRef.hostView);
+      this.containerB.detach(index);
+      this.containerA.insert(this.childContainerRef.hostView);
+      this.childContainerRef.changeDetectorRef.detectChanges();
+      this.isChildUp = true;
+    }
   }
 }

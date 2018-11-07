@@ -10,7 +10,15 @@
   <button (click)="moveChildToParentB()">INPUT -> PARENT B</button>
 </div>
 
+<div>
+  <button (click)="moveChildDown()">INPUT TOP -> BOTTOM</button>
+  <button (click)="moveChildUp()">INPUT BOTTOM -> TOP</button>
+</div>
 <router-outlet></router-outlet>
 
 
-<div #container></div>
+<div #containerA></div>
+
+<hr>
+
+<div #containerB></div>

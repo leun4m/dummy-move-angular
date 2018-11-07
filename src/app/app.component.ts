@@ -11,6 +11,7 @@ export class AppComponent implements AfterViewInit{
   @ViewChild('containerB', {read: ViewContainerRef}) containerB: ViewContainerRef;
 
   private childContainerRef: ComponentRef<ChildAComponent>;
+  private isChildUp = true;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
@@ -21,9 +22,22 @@ export class AppComponent implements AfterViewInit{
   }
 
   moveDown() {
-    const index = this.containerA.indexOf(this.childContainerRef.hostView);
-    this.containerA.detach(index);
-    this.containerB.insert(this.childContainerRef.hostView);
-    this.childContainerRef.changeDetectorRef.detectChanges();
+    if (this.isChildUp) {
+      const index = this.containerA.indexOf(this.childContainerRef.hostView);
+      this.containerA.detach(index);
+      this.containerB.insert(this.childContainerRef.hostView);
+      this.childContainerRef.changeDetectorRef.detectChanges();
+      this.isChildUp = false;
+    }
+  }
+
+  moveUp() {
+    if (!this.isChildUp) {
+      const index = this.containerB.indexOf(this.childContainerRef.hostView);
+      this.containerB.detach(index);
+      this.containerA.insert(this.childContainerRef.hostView);
+      this.childContainerRef.changeDetectorRef.detectChanges();
+      this.isChildUp = true;
+    }
   }
 }

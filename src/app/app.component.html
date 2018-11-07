@@ -1,9 +1,14 @@
 <h1>Dummy-App</h1>
 
 <nav>
-  <button (click)="toParentA()">PARENT A</button>
-  <button (click)="toParentB()">PARENT B</button>
+  <button (click)="gotoParentA()">PARENT A</button>
+  <button (click)="gotoParentB()">PARENT B</button>
 </nav>
+
+<div>
+  <button (click)="moveChildToParentA()">INPUT -> PARENT A</button>
+  <button (click)="moveChildToParentB()">INPUT -> PARENT B</button>
+</div>
 
 <router-outlet></router-outlet>
 

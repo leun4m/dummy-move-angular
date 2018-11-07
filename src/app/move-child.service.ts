@@ -5,13 +5,11 @@ import { ChildAComponent } from './child-a/child-a.component';
   providedIn: 'root'
 })
 export class MoveChildService {
-  toAppEvent: EventEmitter<ComponentRef<ChildAComponent>>
+  toApp: EventEmitter<ComponentRef<ChildAComponent>>
+  toParentA: EventEmitter<ComponentRef<ChildAComponent>>
 
   constructor() {
-    this.toAppEvent = new EventEmitter<ComponentRef<ChildAComponent>>();
-   }
-
-  moveChildToApp(componentRef: ComponentRef<ChildAComponent>): void {
-    this.toAppEvent.emit(componentRef);
+    this.toApp = new EventEmitter<ComponentRef<ChildAComponent>>();
+    this.toParentA = new EventEmitter<ComponentRef<ChildAComponent>>();
   }
 }

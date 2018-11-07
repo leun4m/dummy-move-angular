@@ -18,8 +18,9 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.moveChildService.toAppEvent.subscribe({
+    this.moveChildService.toApp.subscribe({
       next: (componentRef: ComponentRef<ChildAComponent>) => {
+        console.log('Event toApp called!', componentRef);
         this.childContainerRef = componentRef;
         this.container.insert(this.childContainerRef.hostView);
         this.childContainerRef.changeDetectorRef.detectChanges();
@@ -27,11 +28,19 @@ export class AppComponent implements AfterViewInit {
     })
   }
 
-  toParentA() {
+  gotoParentA() {
     this.router.navigateByUrl('/a');
   }
   
-  toParentB() {
+  gotoParentB() {
     this.router.navigateByUrl('/b');
+  }
+
+  moveChildToParentA() {
+    this.moveChildService.toParentA.emit(this.childContainerRef);
+  }
+
+  moveChildToParentB() {
+    // this.moveChildService.toParentA.next(this.childContainerRef);
   }
 }

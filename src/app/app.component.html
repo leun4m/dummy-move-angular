@@ -1,13 +1,8 @@
 <h1>Dummy-App</h1>
 
-<div #containerA>
-</div>
+<nav>
+  <button (click)="toParentA()">PARENT A</button>
+  <button (click)="toParentB()">PARENT B</button>
+</nav>
 
-<button (click)="moveDown()">
-Nach unten setzen
-</button>
-<button (click)="moveUp()">
-  Nach oben setzen
-</button>
-
-<div #containerB></div>
+<router-outlet></router-outlet>

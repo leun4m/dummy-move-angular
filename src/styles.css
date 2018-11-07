@@ -6,3 +6,7 @@
     border: 2px solid green;
     padding: 1em;
 }
+.parent {
+    border: 2px solid orange;
+    padding: 1em;
+}
